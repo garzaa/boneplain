@@ -1,0 +1,170 @@
+.center {
+    padding-top: 10pt;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    column-gap: 20pt;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+html {
+    font-family: "Fira Sans", sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.center > div {
+    flex: 1 1 0px;
+}
+
+#upgrades button {
+    width: 100%;
+    height: 100%;
+}
+
+#upgrades {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#upgrades div {
+    width: 7rem;
+    height: 7rem;
+}
+
+#store button {
+    width: 100%;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+    margin-bottom: 4pt;
+}
+
+.storeButton {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    height: 5rem;
+}
+
+.storeButtonTitle {
+    display: inline-block;
+    vertical-align: middle;
+    margin: auto 0;
+}
+
+.storeButtonTitle.h2 {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.storeButton.h3 {
+    text-align: right;
+}
+
+#gather {
+    width: 100%;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+}
+
+.blue {
+    color: blue;
+}
+
+.gray {
+    color: gray;
+}
+
+#store {
+    text-align: center;
+}
+
+.tooltip {
+    border: 2px solid black;
+    border-radius: 2px;
+    display: none;
+    margin-left: 24pt;
+    padding: 10pt;
+    position: absolute;
+    z-index: 1000;
+    width: 200pt;
+    color: black;
+    block-size: fit-content;
+}
+
+div:hover > .tooltip, button:hover > .tooltip, li:hover > .tooltip {
+    display: block;
+    text-align: left;
+    background-color: white;
+}
+
+#physbox {
+    width: 800px;
+    height: 400px;
+    margin: auto;
+    display: block;
+}
+
+#boughtUpgrades {
+    padding: 0;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style-type: none;
+}
+
+.boughtUpgrade, #cheevos > div {
+    background-color: #f1f1f1;
+    border-radius: 5pt;
+    padding: 0.5rem;
+}
+
+particle {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    opacity: 0;
+    background-image: url(bone1.png);
+    background-size: contain;
+    width: 60px;
+    height: 60px;
+}
+
+#notifications {
+    position: absolute;
+    top: 2pt;
+    right: 20pt;
+    width: 20rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.achievementNotification {
+    height: auto;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 2px;
+    border: 2px solid black;
+}
+
+.achievementNotification > button {
+    float: right;
+}
+
+#cheevos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <title>BONE PLAIN</title>
+        <script
+            src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
+            integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
+            crossorigin="anonymous"
+        ></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Roboto+Mono&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script src="matter.js"></script>
+    </head>
+    <body>
+        <div id="physbox"></div>
+        <div class="center">
+            <div id="hud">
+                <button id="gather" class="boneButton"><h1 id="numBones">0</h1></button>
+                <h4 id="bonesPerSecond">0 BpS</h4>
+                <h4 id="towerHeight">0 m</h4>
+                <h4 id="layersPerSecond">0 LpS</h4>
+
+                <div id="upgradesContainer">
+                    <div id="upgrades"></div>
+                    <h2>Upgrades</h2>
+                    <ul id="boughtUpgrades"></ul>
+                </div>
+            </div>
+            <div id="store"></div>
+            <div>
+                <div id="cheevos"></div>
+                <div id="log"></div>
+            </div>
+        </div>
+
+        <div id="notifications"></div>
+
+        <script src="phys.js"></script>
+        <script src="store.js"></script>
+        <script src="script.js"></script>
+        <script src="achievements.js"></script>
+    </body>
+</html>
