@@ -128,6 +128,11 @@ div:hover > .tooltip, button:hover > .tooltip, li:hover > .tooltip {
     padding: 0.5rem;
 }
 
+.boughtUpgrade {
+    flex-basis: 10em;
+    display: block;
+}
+
 particle {
     position: fixed;
     left: 0;

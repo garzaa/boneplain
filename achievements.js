@@ -54,6 +54,16 @@ const achievements = {
 		description: "Collect 206 Bones per Second (BpS).",
 		predicate: () => boneRate >= 206,
 	},
+	rainingPythons: {
+		title: "Raining Pythons",
+		description: "Collect 1 Python worth of Bones per Second",
+		predicate: () => boneRate >= 1800,
+	},
+	impAbuser: {
+		title: "Imp Abuser",
+		description: "Creatively motivate your <span class='blue'>Bone Imps</span>.",
+		predicate: () => ["Imp-Biters", "Imp-Beaters", "Imp-Breakers"].every(a => upgrades.has(a)),
+	}
 }
 
 const gotten = new Set()
@@ -75,7 +85,7 @@ function getAchievement(name, quiet = false) {
 	tooltips = document.querySelectorAll(".tooltip");
 }
 
-function loadAchievements(gottenNames) {A
+function loadAchievements(gottenNames) {
 	gottenNames.forEach(x => getAchievement(x, quiet=true))
 }
 

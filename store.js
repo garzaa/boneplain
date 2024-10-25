@@ -91,7 +91,7 @@ const store = {
 		onBuy: function () {
 		  plain.add("carpenter");
 		},
-		predicate: () => height > 10 && boneRate > 100
+		predicate: () => height > 10 && boneRate > 100 && plain.count("imp") > 1
 	  },
 	  worker: {
 		text: "OGRE WORKER",
@@ -102,7 +102,7 @@ const store = {
 		onBuy: function () {
 		  plain.add("worker");
 		},
-		predicate: () => height > 50 && boneRate > 500
+		predicate: () => height > 50 && boneRate > 500 && plain.count("ogre") > 1
 	  },
 	crane: {
 	  text: "BONE CRANE",
@@ -118,7 +118,21 @@ const store = {
 	  },
 	  predicate: () => height > 100 && boneRate > 10000
 	},
-  };
+  vulture: {
+	  text: "BONE VULTURE",
+	  cost: 100000,
+	  boneRate: 1000,
+	  layerRate: 0,
+	  detail: "Vultures circle around the upper reaches of the tower, carrying back their spoils.",
+	  onBuy: function () {
+		log(
+		  "You construct a <span class='gray'>BONE VULTURE</span>.<br>It shrieks and flaps its wings with a rattling noise.",
+		);
+		plain.add("vulture");
+	  },
+	  predicate: () => height > 10000
+	},
+};
 
 
 // todo: imp overseers for cranes, imp carpenters? don't just jump straight to cranes
@@ -224,23 +238,23 @@ const upgrades = {
     },
   },
   "Imp Morsels": {
-    cost: 3000,
+    cost: 5000,
     detail: "Makes imps excited to work faster.",
     effect: "Bone Imps are <span class='blue'>twice</span> as efficient.",
     predicate: function () {
-      return plain.count("imp") >= 10 && upgrades.has("Imp Treats");
+      return plain.count("imp") >= 5 && upgrades.has("Imp Treats");
     },
     onBuy: function () {
       buffs.imp.boneMultiplier *= 2;
       log("The BONE IMPS love their little morsels.");
     },
   },
-  "Imp Banquets": {
-    cost: 15000,
+  "Imp Meals": {
+    cost: 25000,
     detail: "Makes imps more excited to work faster.",
     effect: "Bone Imps are <span class='blue'>twice</span> as efficient.",
     predicate: function () {
-      return plain.count("imp") >= 30 && upgrades.has("Imp Morsels");
+      return plain.count("imp") >= 25 && upgrades.has("Imp Morsels");
     },
     onBuy: function () {
       buffs.imp.boneMultiplier *= 2;
@@ -248,19 +262,31 @@ const upgrades = {
     },
   },
   "Imp Feasts": {
-    cost: 15000,
+    cost: 50000,
     detail: "Makes imps extremely excited to work faster.",
     effect: "Bone Imps are <span class='blue'>twice</span> as efficient.",
     predicate: function () {
-      return plain.count("imp") >= 500 && upgrades.has("Imp Feasts");
+      return plain.count("imp") >= 50 && upgrades.has("Imp Meals");
     },
     onBuy: function () {
       buffs.imp.boneMultiplier *= 2;
-      log("The BONE IMPS love their feasts.");
+      log("The BONE IMPS love their gigantic meals.");
+    },
+  },
+  "Imp Banquets": {
+    cost: 100000,
+    detail: "Makes imps extremely excited to work faster.",
+    effect: "Bone Imps are <span class='blue'>twice</span> as efficient.",
+    predicate: function () {
+      return plain.count("imp") >= 100 && upgrades.has("Imp Feasts");
+    },
+    onBuy: function () {
+      buffs.imp.boneMultiplier *= 2;
+      log("The BONE IMPS love their lavish cornucopias.");
     },
   },
   "Ogre Jawbreakers": {
-    cost: 5000,
+    cost: 1000,
     detail: "Bone Ogres drool at the thought of these little white globules.",
     effect: "Bone Ogres are <span class='blue'>twice</span> as efficient.",
     predicate: function () {
@@ -272,15 +298,27 @@ const upgrades = {
     },
   },
   "Sweet Jawbreakers": {
-    cost: 10000,
+    cost: 5000,
     detail: "Bone Ogres crunch them down as they work.",
     effect: "Bone Ogres are <span class='blue'>twice</span> as efficient.",
     predicate: function () {
-      return plain.count("ogre") >= 10 && upgrades.has("Ogre Jawbreakers");
+      return plain.count("ogre") >= 5 && upgrades.has("Ogre Jawbreakers");
     },
     onBuy: function () {
       buffs.ogre.boneMultiplier *= 2;
       log("The BONE OGRES crunch even more happily.");
+    },
+  },
+  "Improved Jawbreakers": {
+    cost: 5000,
+    detail: "Special formula to prevent premature crunching.",
+    effect: "Bone Ogres are <span class='blue'>twice</span> as efficient.",
+    predicate: function () {
+      return plain.count("ogre") >= 25 && upgrades.has("Sweet Jawbreakers");
+    },
+    onBuy: function () {
+      buffs.ogre.boneMultiplier *= 2;
+      log("The BONE OGRES crunch confusedly, yet happily.");
     },
   },
   "Golem Grease": {
@@ -308,7 +346,7 @@ const upgrades = {
     },
   },
   "Eldritch Grease": {
-    cost: 100000,
+    cost: 120000,
     detail: "Your Bone Golems' joints glow purple.",
     effect: "Bone Golems are <span class='blue'>twice</span> as efficient.",
     predicate: function () {
@@ -337,7 +375,7 @@ const upgrades = {
     detail: "Give Ogres a club to encourage the Imps. Imps hate it!",
     effect: "Imps gain <span class='blue'>0.5% BpS</span> per Ogre.",
     predicate: function () {
-      return plain.count("ogre") >= 10 && plain.count("imp") >= 40;
+      return plain.count("ogre") >= 10 && plain.count("imp") >= 25;
     },
     onBuy: function () {
       buffs.imp.multipliers.push((x) => {
@@ -350,7 +388,7 @@ const upgrades = {
     detail: "Give Golems permission to crush unruly Imps. Imps hate it!",
     effect: "Imps gain <span class='blue'>1% BpS</span> per Golem.",
     predicate: function () {
-      return plain.count("golem") >= 20 && plain.count("imp") >= 100;
+      return plain.count("golem") >= 10 && plain.count("imp") >= 50;
     },
     onBuy: function () {
       buffs.imp.multipliers.push((x) => {

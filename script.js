@@ -40,6 +40,8 @@ function getBoneRate(itemName) {
   }
   let bm = buffs[itemName].boneMultiplier || 1;
   let m = 1;
+  // need to serialize multipliers. FUCK!
+  // actually wait can we just clear the multipliers? that might work
   for (let i=0; i<buffs[itemName].multipliers.length; i++) {
     m = buffs[itemName].multipliers[i](m);
   }
@@ -346,6 +348,12 @@ function loadGame() {
 
 function serializeGame() {
   state = {};
+  // clear multiplier functions because you can't serialize them
+  // they'll be repopulated by buying things when the save is loaded
+  Object.keys(buffs).forEach(itemName => {
+    buffs[itemName].multipliers = [];
+  })
+  state["achievements"] = saveAchievements();
   state["boughtUpgrades"] = upgrades.bought;
   state["buffs"] = buffs;
   state["entities"] = plain.entities;
@@ -361,6 +369,7 @@ function serializeGame() {
 function loadSave(state) {
   // TODO: recreate all the store/upgrade buttons
   muteLog = true;
+  loadAchievements(state["achievements"]);
   state["boughtUpgrades"].forEach((uName) => {
     console.log("buying " + uName);
     buyUpgrade(uName, (skipCost = true));
