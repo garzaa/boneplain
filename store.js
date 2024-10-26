@@ -177,6 +177,18 @@ const upgrades = {
       buffs.collectMultiplier *= 2;
     },
   },
+  "Bone Vault": {
+    cost: 10000,
+    detail: "Store the bones for later. Elbow the Imps out of the way.",
+    effect:
+      "Personal bone collecting is <span class='blue'>twice</span> as efficient.",
+    predicate: function () {
+      return upgrades.has("Bone Pit") && plain.count("imp") > 20;
+    },
+    onBuy: function () {
+      buffs.collectMultiplier *= 2;
+    },
+  },
   "Sprite Impetus": {
     cost: 100,
     detail: "Give sprites a better understanding of their purpose.",
