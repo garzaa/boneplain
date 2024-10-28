@@ -99,7 +99,6 @@ function checkAchievements() {
 
 function checkAchievement(name) {
 	if (!gotten.has(name) && achievements[name].predicate()) {
-		console.log("getting "+name)
 		getAchievement(name);
 	}
 }

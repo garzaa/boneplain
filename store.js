@@ -380,6 +380,7 @@ const upgrades = {
       buffs.imp.multipliers.push((x) => {
         return x + (plain.count("sprite") * 0.01);
       });
+      log("If you listen closely, you can hear the clacking of crumb-sized teeth.");
     },
   },
   "Imp-Beaters": {
@@ -393,11 +394,12 @@ const upgrades = {
       buffs.imp.multipliers.push((x) => {
         return x + (plain.count("ogre") * 0.05);
       });
+      log("The quiet clacking of the BONE PLAIN is broken by the occasional imp yelp.");
     },
   },
   "Imp-Breakers": {
     cost: 500000,
-    detail: "Give Golems permission to crush unruly Imps. Imps hate it!",
+    detail: "Give Golems permission to thrash unruly Imps. Imps hate it!",
     effect: "Imps gain <span class='blue'>1% BpS</span> per Golem.",
     predicate: function () {
       return plain.count("golem") >= 10 && plain.count("imp") >= 50;
@@ -406,6 +408,51 @@ const upgrades = {
       buffs.imp.multipliers.push((x) => {
         return x + (plain.count("golem") * 0.1);
       });
+      log("Golems watch over the unruly Imps. Sometimes, with a shriek, one will be hurled into the distance.");
     },
   },
-};
+  "Imp-Crushers": {
+    cost: 1000000,
+    detail: "Give Giants permission to crush unruly Imps. Imps hate it!",
+    effect: "Imps gain <span class='blue'>5% BpS</span> per Giant. -0.001 IpS (Imps per Second).",
+    predicate: function () {
+      return plain.count("golem") >= 10 && plain.count("imp") >= 50;
+    },
+    onBuy: function () {
+      buffs.imp.multipliers.push((x) => {
+        return x + (plain.count("golem") * 0.1);
+      });
+      setInterval(() => {
+        if (plain.count("imp") > 0) {
+          plain.count("imp") -= 1;
+          log("A BONE GOLEM has beaten an imp to death.")
+        }
+      }, 1000 / 0.001)
+      log("Crunching of bones, crunching of skulls. It's all the same in the end.");
+    },
+  },
+  "Vulture Beaks": {
+    cost: 200000,
+    detail: "Bone Vultures get larger beaks to carry more bones.",
+    effect: "Bone vultures are <span class='blue'>twice</span> as efficient.",
+    predicate: function () {
+      return plain.count("vulture") >= 1;
+    },
+    onBuy: function () {
+      buffs.vulture.boneMultiplier *= 2;
+      log("Hollow cawing fills the sky.");
+    },
+  },
+  "Vulture Talons": {
+    cost: 500000,
+    detail: "Bone Vultures get larger talons to carry more bones.",
+    effect: "Bone vultures are <span class='blue'>twice</span> as efficient.",
+    predicate: function () {
+      return plain.count("vulture") >= 10;
+    },
+    onBuy: function () {
+      buffs.vulture.boneMultiplier *= 2;
+      log("Gray-white talons rend the air.")
+    },
+  }
+}

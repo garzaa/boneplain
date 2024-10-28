@@ -246,6 +246,7 @@ $(document).ready(function () {
   tick(tickRate);
   setInterval(frameUpdate, frameRate * 1000, frameRate);
   setInterval(autoBoneTake, 100);
+  loadGame();
 });
 
 function autoBoneTake() {
@@ -282,6 +283,7 @@ function makeStoreButton(item, itemName) {
 
 function populateStore() {
   let storeContainer = $("#store");
+  storeContainer.empty();
   for (const [itemName, item] of Object.entries(store)) {
     let itemButton = makeStoreButton(item, itemName).appendTo(storeContainer);
     item.storeButton = itemButton;
@@ -304,6 +306,7 @@ function populateStore() {
   }
 
   let upgradeContainer = $("#upgrades");
+  upgradeContainer.empty();
   for (const [upgradeName, item] of Object.entries(upgrades)) {
     // make sure it's not a function
     if (!item.cost) continue;
@@ -343,16 +346,19 @@ function saveGame() {
 }
 
 function loadGame() {
-  loadSave(JSON.parse(window.localStorage.getItem("save")));
+  try {
+    if (localStorage.getItem("save") === null) {
+      console.log("no save present");
+      return;
+    }
+    loadSave(JSON.parse(window.localStorage.getItem("save")));
+  } catch (error) {
+    log("<span style='color: red';>game fucked up loading the save, show this to craniel: \n"+ error + "</span>")
+  }
 }
 
 function serializeGame() {
   state = {};
-  // clear multiplier functions because you can't serialize them
-  // they'll be repopulated by buying things when the save is loaded
-  Object.keys(buffs).forEach(itemName => {
-    buffs[itemName].multipliers = [];
-  })
   state["achievements"] = saveAchievements();
   state["boughtUpgrades"] = upgrades.bought;
   state["buffs"] = buffs;
@@ -367,14 +373,18 @@ function serializeGame() {
 }
 
 function loadSave(state) {
-  // TODO: recreate all the store/upgrade buttons
   muteLog = true;
   loadAchievements(state["achievements"]);
+  buffs = state["buffs"];
+  // clear multiplier functions because you can't serialize them
+  // they'll be repopulated by buying things when the rest of the save is loaded
+  Object.keys(buffs).forEach(itemName => {
+    buffs[itemName].multipliers = [];
+  })
   state["boughtUpgrades"].forEach((uName) => {
     console.log("buying " + uName);
     buyUpgrade(uName, (skipCost = true));
   });
-  buffs = state["buffs"];
   for (const [itemName, item] of Object.entries(state.entities)) {
     for (let i = 0; i < item["count"]; i++) {
       buyItem(store[itemName], itemName, (useCost = false));
@@ -385,7 +395,7 @@ function loadSave(state) {
   height = state["height"];
   stats = state["stats"];
   muteLog = false;
-  log("successfully loaded game");
+  log("You remember where you left off.");
 }
 
 window.onbeforeunload = function () {
